@@ -39,6 +39,8 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+      env_file:
+      - .env
     environment:
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
