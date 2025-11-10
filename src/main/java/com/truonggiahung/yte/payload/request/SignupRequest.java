@@ -28,6 +28,6 @@ public class SignupRequest {
     @Size(max=50)
     private String email;
 
-    private Set<String> role;
+    private Set<String> roles;
 
 }

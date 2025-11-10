@@ -44,7 +44,7 @@ PasswordEncoder encoder;
 @Autowired
 JwtUtils jwtUtils;
     @PostMapping("/signin")
-public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
     Authentication authentication = authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
     );
@@ -83,7 +83,7 @@ public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest login
     User user = new User(signUpRequest.getUsername(), 
     signUpRequest.getEmail(),
     encoder.encode(signUpRequest.getPassword()));
-    Set<String> strRoles = signUpRequest.getRole();
+    Set<String> strRoles = signUpRequest.getRoles();
     Set<Role> roles = new HashSet<>();
     if (strRoles == null) {
         Role userRole = roleRepository.findByName(ERole.Patient)
@@ -92,21 +92,21 @@ public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest login
     } 
     else {
         strRoles.forEach(role -> {
-            switch (role) {
+            switch (role.toLowerCase()) {
             case "admin":
-            Role adminRole = roleRepository.findByName(ERole.Admin)
-            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(adminRole);
-            break;
+                Role adminRole = roleRepository.findByName(ERole.Admin)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roles.add(adminRole);
+                break;
             case "doctor":
-            Role modRole = roleRepository.findByName(ERole.Doctor)
-            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(modRole);
-            break;
+                Role modRole = roleRepository.findByName(ERole.Doctor)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roles.add(modRole);
+                break;
             default:
-            Role userRole = roleRepository.findByName(ERole.Patient)
-            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(userRole);
+                Role userRole = roleRepository.findByName(ERole.Patient)
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roles.add(userRole);
             }
         });
     }

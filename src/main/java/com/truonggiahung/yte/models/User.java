@@ -3,6 +3,8 @@ package com.truonggiahung.yte.models;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -37,6 +39,7 @@ public class User {
 
     @NotBlank
     @Size(min=3,max=100)
+    @JsonIgnore
     private String password;
     
     @NotBlank
